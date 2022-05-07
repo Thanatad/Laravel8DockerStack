@@ -28,3 +28,7 @@ Route::get('/retrieve', function () {
 Route::get('/send-mail', function () {
     Mail::to('rolesev588@azteen.com')->send(new TestMail);
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
