@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   nginx:
-    image: nginx:1.19.8-alpine
+    image: nginx:stable-alpine
     container_name: laravel8_nginx
     volumes:
       - ./src:/var/www
@@ -29,8 +29,8 @@ services:
       - web_network
   app:
     build:
-      context: ./dockerfiles
-      dockerfile: php.dockerfile
+      context: .
+      dockerfile: ./dockerfiles/php.dockerfile
     image: laravel8-app
     container_name: laravel8_app
     volumes:
@@ -68,7 +68,6 @@ services:
     restart: always
     networks:
       - web_network
-
 networks:
   web_network:
     name: laravel8

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  reactapp:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/node.dev.dockerfile
+    image: react-app
+    container_name: react_app
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000" #dev
+      # - "8124:80" #production
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    restart: always
+    networks:
+      - web_network
+networks:
+  web_network:
+    name: reactapp
+    driver: bridge
+
