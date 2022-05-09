@@ -13,6 +13,6 @@ class Product extends Model
 
     public function Users()
     {
-        return $this->belongsTo(User::class, 'user_id')->select(['id', 'fullname', 'avatar']);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

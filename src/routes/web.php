@@ -16,19 +16,3 @@ use App\Mail\TestMail;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/store', function () {
-    Redis::set('Bangkok', 'Krung  Thep Maha Nakhon');
-});
-
-Route::get('/retrieve', function () {
-    return Redis::get('Bangkok');
-});
-
-Route::get('/send-mail', function () {
-    Mail::to('rolesev588@azteen.com')->send(new TestMail);
-});
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

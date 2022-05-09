@@ -10,6 +10,6 @@ RUN apt-get install -y nodejs
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/wwwD
+WORKDIR /var/www
 
 EXPOSE 9000

@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+
+use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\Product\ProductCollection;
+use App\Http\Resources\V1\Product\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = 10;
 
-        return Product::all();
+        if ($request->input('get') == 'all') (int)$perPage = 999999999;
+
+        return response(new ProductCollection(Product::paginate($perPage)));
     }
 
     public function store(Request $request)
@@ -35,7 +41,7 @@ class ProductController extends Controller
                 'user_id' => $user->id
             ];
 
-            return Product::create($data);
+            return response(new ProductResource(Product::create($data)));
         } else {
             return [
                 'status' => 'permission denied to create',
@@ -45,7 +51,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        return Product::find($id);
+        return response(new ProductResource(Product::find($id)));
     }
 
     public function update(Request $request, $id)
@@ -63,7 +69,7 @@ class ProductController extends Controller
 
             $product->update();
 
-            return $product;
+            return response(new ProductResource($product));
         } else {
             return [
                 'status' => 'Permission denied to update product'
@@ -73,10 +79,9 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        /** @var \App\Models\User $user **/
-
         if ($this->user->tokenCan('1')) {
-            return Product::destroy($id);
+            Product::destroy($id);
+            return response(['success' => 'Successfully deleted'], 200);
         } else {
             return [
                 'status' => 'Permission denied to delete product'
