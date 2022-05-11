@@ -29,7 +29,3 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('products', ProductController::class);
     Route::post('logout', [AuthController::class, 'logout']);
 });
-
-Route::get('version', function () {
-    return 'API Version 1';
-});
